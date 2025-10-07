@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsl5at2vh24th"]
+
+[ext_resource type="Script" uid="uid://41l7mhey2ki5" path="res://scenes/components/blocks/block_base.gd" id="1_tiy1m"]
+[ext_resource type="Texture2D" uid="uid://chno2sg2q05q2" path="res://assets/block.png" id="2_tiy1m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tiy1m"]
+size = Vector2(220, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_01xsa"]
+size = Vector2(220, 70)
+
+[node name="Block_base" type="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_tiy1m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_tiy1m")
+centered = false
+
+[node name="LabelCounter" type="Label" parent="."]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 45.5
+offset_top = 12.5
+offset_right = 174.5
+offset_bottom = 57.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "Break it!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(110, 35)
+shape = SubResource("RectangleShape2D_tiy1m")
+debug_color = Color(0, 0.6, 0.69803923, 0.039215688)
+
+[node name="ImpactSurfaceArea2D" type="Area2D" parent="."]
+position = Vector2(110, 35)
+collision_layer = 4
+collision_mask = 32
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ImpactSurfaceArea2D"]
+shape = SubResource("RectangleShape2D_01xsa")
+
+[connection signal="body_entered" from="ImpactSurfaceArea2D" to="." method="_on_impact_surface_area_2d_body_entered"]

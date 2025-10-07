@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgf6haak3iekl"]
+
+[ext_resource type="Script" uid="uid://c4d6qkho6oqqv" path="res://scenes/components/level/level_base.gd" id="1_rlcmn"]
+[ext_resource type="Texture2D" uid="uid://c1s8omq7qttjl" path="res://assets/wall_structure.png" id="1_u0om3"]
+[ext_resource type="PackedScene" uid="uid://bpxa2i6eo20qx" path="res://scenes/components/player/player.tscn" id="2_0y8gg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2j4s"]
+size = Vector2(924, 91)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlcmn"]
+size = Vector2(720, 64)
+
+[node name="Level_base" type="Node2D"]
+script = ExtResource("1_rlcmn")
+
+[node name="background" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+centered = false
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-102, -101, -102, 1280, 50, 1280, 50, 51, 670, 51, 670, 1280, 824, 1280, 823, -100)
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls"]
+texture = ExtResource("1_u0om3")
+centered = false
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+position = Vector2(0, 1280)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2(361, 45.5)
+shape = SubResource("RectangleShape2D_a2j4s")
+debug_color = Color(1, 1, 0, 1)
+
+[node name="DeathZoneArea2D" type="Area2D" parent="."]
+position = Vector2(0, 1280)
+collision_layer = 16
+collision_mask = 40
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZoneArea2D"]
+position = Vector2(359, -24)
+shape = SubResource("RectangleShape2D_rlcmn")
+debug_color = Color(0, 0, 0, 0.6)
+
+[node name="Player" parent="." instance=ExtResource("2_0y8gg")]
+position = Vector2(360, 1150)
+
+[connection signal="body_entered" from="DeathZoneArea2D" to="." method="_on_death_zone_area_2d_body_entered"]

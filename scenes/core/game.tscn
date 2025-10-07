@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://d13gom085yvd2"]
+
+[ext_resource type="PackedScene" uid="uid://dyxd8qa6gte2q" path="res://scenes/core/ui.tscn" id="1_2bsr5"]
+[ext_resource type="Script" uid="uid://dopsqg8dhvbk1" path="res://scenes/core/game.gd" id="1_avem7"]
+[ext_resource type="Script" uid="uid://dnuwc0sbtcnrs" path="res://scenes/core/music_bg.gd" id="2_6ea2g"]
+[ext_resource type="AudioStream" uid="uid://o4voifev5gql" path="res://assets/music/music.ogg" id="2_e12ky"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_avem7")
+
+[node name="UI" parent="." instance=ExtResource("1_2bsr5")]
+
+[node name="MusicBG" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_e12ky")
+autoplay = true
+parameters/looping = true
+script = ExtResource("2_6ea2g")
+
+[node name="LevelContainer" type="Node2D" parent="."]
+
+[node name="BallContainer" type="Node2D" parent="."]
+
+[connection signal="clear_balls" from="UI" to="." method="_on_ui_clear_balls"]
+[connection signal="clear_level" from="UI" to="." method="_on_ui_clear_level"]
+[connection signal="level_selected" from="UI" to="." method="_on_ui_level_selected"]
